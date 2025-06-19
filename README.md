@@ -114,11 +114,19 @@ pip install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorc
 ```bash
 git clone https://github.com/allenai/molmo.git
 cd molmo && pip install -e .[all] && cd .. # setup molmo requirements
+cd VideoMolmo
 pip install -r requirements.txt
 ```
 
 (3) Setup SAM
 ```bash
+#if the python setup gives an error, do the following export statements to get CUDA (nvcc) path
+conda install nvidia/label/cuda-12.1.0::cuda-toolkit
+export CUDA_HOME=$CONDA_PREFIX
+export PATH=$CONDA_PREFIX/bin:$PATH
+export C_INCLUDE_PATH=$CONDA_PREFIX/include:$C_INCLUDE_PATH
+export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH
+
 python setup.py build_ext --inplace # build sam2
 mkdir -p sam2_checkpoints
 wget https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_large.pt -O sam2_checkpoints/sam2.1_hiera_large.pt
@@ -129,9 +137,13 @@ wget https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_large
 To run inference on the provided sample video:
 
 ```bash
+# python infer.py \
+#   --video_path ../examples/video_sample1 \
+#   --prompt "point to the person in red shirt" \
+#   --save_path "results"
 python infer.py \
   --video_path ../examples/video_sample1 \
-  --prompt "point to the person in red shirt" \
+  --prompt "point to the ipad" \
   --save_path "results"
 ```
 

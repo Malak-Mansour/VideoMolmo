@@ -121,11 +121,15 @@ pip install -r requirements.txt
 (3) Setup SAM
 ```bash
 #if the python setup gives an error, do the following export statements to get CUDA (nvcc) path
-conda install nvidia/label/cuda-12.1.0::cuda-toolkit
-export CUDA_HOME=$CONDA_PREFIX
-export PATH=$CONDA_PREFIX/bin:$PATH
-export C_INCLUDE_PATH=$CONDA_PREFIX/include:$C_INCLUDE_PATH
-export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH
+conda install nvidia/label/cuda-12.4.0::cuda-toolkit
+# export CUDA_HOME=$CONDA_PREFIX
+# export PATH=$CONDA_PREFIX/bin:$PATH
+# export C_INCLUDE_PATH=$CONDA_PREFIX/include:$C_INCLUDE_PATH
+# export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH
+export CUDA_HOME=/usr/local/cuda-12.2  # or whatever the correct path is
+export PATH=$CUDA_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+
 
 python setup.py build_ext --inplace # build sam2
 mkdir -p sam2_checkpoints
@@ -141,9 +145,15 @@ To run inference on the provided sample video:
 #   --video_path ../examples/video_sample1 \
 #   --prompt "point to the person in red shirt" \
 #   --save_path "results"
+
 python infer.py \
   --video_path ../examples/video_sample1 \
   --prompt "point to the ipad" \
+  --save_path "results"
+
+python infer.py \
+  --video_path ../../nd_077_right \
+  --prompt "point to all the cells" \
   --save_path "results"
 ```
 

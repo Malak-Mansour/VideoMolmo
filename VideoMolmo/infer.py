@@ -83,7 +83,7 @@ def main(args):
     video = os.path.basename(args.video_path)
     print(f'video: {video}')
 
-    frames = sorted([frame for frame in os.listdir(args.video_path) if frame.endswith(('.jpg', '.png'))])
+    frames = sorted([frame for frame in os.listdir(args.video_path) if frame.endswith(('.jpg', '.png', '.tif'))])
     pil_images = [Image.open(os.path.join(args.video_path, frame)) for frame in frames]
 
     total_frames = min(len(pil_images), max_video_len)
